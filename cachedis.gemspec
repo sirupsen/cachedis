@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "cachedis"
   s.version     = Cachedis::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Simon Hørup Eskildsen"]
+  s.email       = ["sirup@sirupsen.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Caches expensive database queries in Redis}
+  s.description = %q{Instead of running your expensive queries for every page load, let cachedis store them in Redis and fetch them.}
 
   s.rubyforge_project = "cachedis"
 
