@@ -11,6 +11,8 @@ Cachedis caches your expensive queries to a Redis instance so the next time you 
 
 ## Documentation
 
+Anything passed to `Cachedis#new` is passed to `redis-rb`.
+
 The main method of `Cachedis` is `#cachedis`, it takes the following parameters:
 
     key, options = {}
