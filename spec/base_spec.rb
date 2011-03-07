@@ -7,13 +7,13 @@ describe Cachedis::Cacher do
     @cachedis = Cachedis::Cacher.new
   end
 
-  describe 'the serializer' do
-    context 'left as default' do
-      it 'is Marshal' do
-        Cachedis.serializer.should == "Marshal"
-      end
+  describe :serializer do
+    subject { Cachedis.serializer }
 
-      it 'is used by #cachedis' do
+    context 'when left as default' do
+      specify { should == "Marshal" }
+
+      it 'should be used by #cachedis' do
         with_no_cache('cached')
         Cachedis.should_receive(:serializer).exactly(1).times.and_return('Marshal')
 
@@ -22,9 +22,39 @@ describe Cachedis::Cacher do
         end
       end
     end
+
+    context 'when changed' do
+      specify { should == "Marshal" }
+
+      context 'with cache' do
+        before { with_cache }
+
+        it 'should be used by #cachedis' do
+          @mock = mock(Object)
+          Kernel.const_set('JSON', @mock)
+          Cachedis.should_receive(:serializer).exactly(1).times.and_return('JSON')
+          @mock.should_receive(:load).and_return('result')
+
+          @cachedis.cachedis('key') { 'result' }.should == 'result'
+        end
+      end
+
+      context 'with cache' do
+        before { with_no_cache }
+
+        it 'should be used by #cachedis' do
+          @mock = mock(Object)
+          Kernel.const_set('JSON', @mock)
+          Cachedis.should_receive(:serializer).exactly(1).times.and_return('JSON')
+          @mock.should_receive(:dump).and_return('result')
+
+          @cachedis.cachedis('key') { 'result' }.should == 'result'
+        end
+      end
+    end
   end
 
-  describe 'when setting something' do
+  describe :cachedis do
     it 'sets without errors' do
       with_no_cache(['element', 'element 2'])
       

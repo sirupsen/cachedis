@@ -9,7 +9,7 @@ module HelperMethods
     @cachedis.redis.should_receive(:set).exactly(1).times.and_return(cache)
   end
 
-  def with_cache(cache)
+  def with_cache(cache = nil)
     @cachedis.redis.should_receive(:exists).exactly(1).times.and_return(true)
     @cachedis.redis.should_receive(:get).exactly(1).times.and_return(cache)
   end
