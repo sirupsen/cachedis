@@ -1,43 +1,47 @@
 require 'redis'
-require 'yaml'
 
-class Cachedis
-  attr_reader :redis_instance
+module Cachedis
+  Serializer = "Marshal"
+  Options = {}
+  QueryOptions = {}
 
-  def initialize(options = {})
-    redis(options)
-  end
+  class Cacher
+    attr_reader :redis_instance
 
-  def cachedis(key, options = {}, &block)
-    result = yield
-    
-    return YAML.load(redis.get(key)) if redis.exists key
+    def initialize(options = {})
+      redis(options)
+    end
 
-    result = result.to_yaml
-    redis.set key, result
-    pass_options_to_redis(options)
+    def cachedis(key, options = {}, &block)
+      result = yield
+      
+      return Kernel.const_get(Cachedis::Serializer).load(redis.get(key)) if redis.exists key
 
-    result
-  end
+      result = Kernel.const_get(Cachedis::Serializer).dump(result)
+      redis.set key, result
+      pass_options_to_redis(options)
 
-  def redis(options = {})
-    @redis_instance ||= Redis.new(options)
-  end
+      result
+    end
 
-  private
-  def pass_options_to_redis(options)
-    options.each do |option, argument|
-      arguments = *[argument] if argument.is_a?(Array)
-      redis.send(option, arguments || argument)
+    def redis(options = {})
+      @redis_instance ||= Redis.new(options)
+    end
+
+    private
+    def pass_options_to_redis(options)
+      options.each do |option, argument|
+        arguments = *[argument] if argument.is_a?(Array)
+        redis.send(option, arguments || argument)
+      end
     end
   end
-end
 
-module CachedisInterface
-  def self.cachedis(name, options = {}, &block)
-    cachedis = Cachedis.new((CACHEDIS_DEFAULT_OPTIONS if defined?(CACHEDIS_DEFAULT_OPTIONS))|| {})
-    
-    query_options = ((CACHEDIS_DEFAULT_QUERY_OPTIONS if defined?(CACHEDIS_OPTIONS)) || {}).merge(options)
-    cachedis.cachedis(name, query_options, &block)
+  module Interface
+    def self.cachedis(name, options = {}, &block)
+      cachedis = Cacher.new(Cachedis::Options)
+      
+      cachedis.cachedis(name, Cachedis::QueryOptions.merge(options), &block)
+    end
   end
 end

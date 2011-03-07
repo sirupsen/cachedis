@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe Cachedis do
+describe Cachedis::Cacher do
   include HelperMethods
 
   before do
-    @cachedis = Cachedis.new
+    @cachedis = Cachedis::Cacher.new
   end
 
   describe 'when setting something' do
@@ -20,14 +20,12 @@ describe Cachedis do
 
   describe 'when setting and later retrieving something' do
     it 'retrieves from redis cache' do
-      with_cache('query')
+      with_cache(Marshal.dump('query'))
       @cachedis.redis_instance.should_not_receive(:set)
 
-      result = @cachedis.cachedis 'expensive-query' do
-                "query"
-              end
-
-      result.should == "query"
+      @cachedis.cachedis 'expensive-query' do
+        "query"
+      end
     end
   end
 
