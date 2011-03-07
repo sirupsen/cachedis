@@ -25,7 +25,7 @@ You can specify two types of options via constants:
 
 The key is the name of the key under which the objects are saved as in Redis. Options are send directly to the Redis instance in along. For instance the option could be expiring the key at a certain time:
 
-    include CachedisInterface
+    include Cachedis::Interface
 
     # expire in an hour using Redis' EXPIRE command
     cachedis 'users:all:with_avatars', :expire => 60 * 60 * 60 do
