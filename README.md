@@ -9,6 +9,12 @@ Cachedis caches your expensive queries to a Redis instance so the next time you 
       Post.all.expensive_operation
     end
 
+## Installation and dependencies
+
+Dependencies are: `redis-rb`
+
+Install with: `gem install cachedis`
+
 ## Wishlist
 
 * Tight ActiveRecord integration
