@@ -13,7 +13,7 @@ module Cachedis
     def cachedis(key, options = {}, &block)
       result = yield
       
-      serializer = Cachedis.serializer
+      serializer = Kernel.const_get(Cachedis.serializer)
       return serializer.load(redis.get(key)) if redis.exists key
 
       result = serializer.dump(result)
