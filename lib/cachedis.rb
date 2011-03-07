@@ -8,13 +8,13 @@ class Cachedis
     redis(options)
   end
 
-  def cachedis(name, options = {}, &block)
+  def cachedis(key, options = {}, &block)
     result = yield
     
-    return redis.get name if redis.exists name
+    return redis.get key if redis.exists key
 
-    redis.set name, result.to_yaml
-    redis.expire name, options[:expire] || 60 * 60 # set expire to user specified or one minute
+    redis.set key, result.to_yaml
+    redis.expire key, options[:expire] || 60 * 60 # set expire to user specified or one minute
   end
 
   def redis(options = {})
