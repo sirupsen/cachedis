@@ -17,7 +17,6 @@ class Cachedis
     redis.expire name, options[:expire] || 60 * 60 # set expire to user specified or one minute
   end
 
-  private
   def redis(options = {})
     @redis_instance ||= Redis.new(options)
   end
