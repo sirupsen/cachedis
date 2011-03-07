@@ -11,7 +11,7 @@ class Cachedis
   def cachedis(key, options = {}, &block)
     result = yield
     
-    return Marshal.load(redis.get) key if redis.exists key
+    return Marshal.load(redis.get(key)) if redis.exists key
 
     result = Marshal.dump(result)
     redis.set key, result
