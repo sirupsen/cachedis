@@ -15,10 +15,11 @@ Dependencies are: `redis-rb`
 
 Install with: `gem install cachedis`
 
-## Wishlist
+## Wishlist/To do/To consider
 
-* Tight ActiveRecord integration
-* Make expirement optional
-* Serialize using BERT (fall back to YAML)
+* ActiveRecord integration
+    - `Post.all.expensive_operation.cachedis`
+* Make expirement time optional
+* Best serializing?
 * Sexify the API
-    - Make it easier to specialize expirement time (e.g. `:expire => 4.hours`)
+    - Make it easier to specialize expirement time (e.g. `:expire => 4.hours`), or just let this be for ActiveSupport users only?
