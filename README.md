@@ -16,7 +16,7 @@ You can specify two types of options via constants:
 * `Cachedis::QueryOptions`
     - Default options for the `cachedis` queries
     - For instance if you always want queries to expire in an hour:
-        - `CACHEDIS_DEFAULT_QUERY_OPTIONS = { :expire => 60 * 60 * 60}`
+        - `Cachedis::QueryOptions = { :expire => 60 * 60 * 60}`
     - Overridden by options passed to `cachedis` directly
 
 `cachedis` takes two arguments in addition to a block which should return whatever you want `cachedis` to cache:
