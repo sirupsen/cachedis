@@ -1,0 +1,3 @@
+module Cachedis
+  # Your code goes here...
+end
