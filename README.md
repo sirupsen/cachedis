@@ -18,7 +18,7 @@ The key is the name of the key under which the objects are saved as in Redis. Op
 
     include CachedisInterface
 
-    # expire in an hour
+    # expire in an hour using Redis' EXPIRE command
     cachedis 'users:all:with_avatars', :expire => 60 * 60 * 60 do
       User.all.with_avatars
     end
