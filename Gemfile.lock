@@ -1,0 +1,34 @@
+PATH
+  remote: .
+  specs:
+    cachedis (0.0.1)
+      redis
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    diff-lcs (1.1.2)
+    fuubar (0.0.3)
+      rspec (~> 2.0)
+      rspec-instafail (~> 0.1.4)
+      ruby-progressbar (~> 0.0.9)
+    redis (2.1.1)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-instafail (0.1.7)
+    rspec-mocks (2.5.0)
+    ruby-progressbar (0.0.9)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cachedis!
+  fuubar
+  redis
+  rspec
