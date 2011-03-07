@@ -1,8 +1,8 @@
 # Cachedis
 
-Cachedis caches your expensive queries to a Redis instance so the next time you fire it off, it'll load directly from cache instead of being run again. Optionally you can provide a cache expirement time.
+Cachedis caches your expensive queries to a Redis instance so the next time you fire it off, it'll load directly from cache instead of being run again. 
 
-    cachedis 'name-of-expensive-query', :expire => 60 * 60  do
+    cachedis 'expensive:query', :expire => 60 * 60  do
       Post.all.expensive_operation
     end
 
