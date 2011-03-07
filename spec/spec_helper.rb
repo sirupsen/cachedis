@@ -4,12 +4,13 @@ require 'cachedis'
 require 'rspec'
 
 module HelperMethods
-  def with_no_cache
-    @cachedis.redis_instance.should_receive(:exists).exactly(1).times.and_return(nil)
+  def with_no_cache(cache = nil)
+    @cachedis.redis.should_receive(:exists).exactly(1).times.and_return(false)
+    @cachedis.redis.should_receive(:set).exactly(1).times.and_return(cache)
   end
 
   def with_cache(cache)
-    @cachedis.redis_instance.should_receive(:exists).exactly(1).times.and_return(true)
-    @cachedis.redis_instance.should_receive(:get).exactly(1).times.and_return(cache.to_yaml)
+    @cachedis.redis.should_receive(:exists).exactly(1).times.and_return(true)
+    @cachedis.redis.should_receive(:get).exactly(1).times.and_return(cache.to_yaml)
   end
 end

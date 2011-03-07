@@ -13,8 +13,11 @@ class Cachedis
     
     return redis.get key if redis.exists key
 
-    redis.set key, result.to_yaml
+    result = result.to_yaml
+    redis.set key, result
     pass_options_to_redis(options)
+
+    result
   end
 
   def redis(options = {})
@@ -27,5 +30,12 @@ class Cachedis
       arguments = *[argument] if argument.is_a?(Array)
       redis.send(option, arguments || argument)
     end
+  end
+end
+
+module CachedisInterface
+  def self.cachedis(name, options = {}, &block)
+    cachedis = Cachedis.new(options.merge((CACHEDIS_OPTIONS if defined?(CACHEDIS_OPTIONS))|| {}))
+    cachedis.cachedis(name, options, &block)
   end
 end

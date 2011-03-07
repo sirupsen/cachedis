@@ -9,8 +9,7 @@ describe Cachedis do
 
   describe 'when setting something' do
     it 'sets without errors' do
-      with_no_cache
-      @cachedis.redis_instance.should_receive(:set).exactly(1).times.and_return(['element', 'element 2'].to_yaml)
+      with_no_cache(['element', 'element 2'])
       
       lambda { 
       @cachedis.cachedis 'expensive-query' do
