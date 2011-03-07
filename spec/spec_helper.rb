@@ -11,6 +11,6 @@ module HelperMethods
 
   def with_cache(cache)
     @cachedis.redis.should_receive(:exists).exactly(1).times.and_return(true)
-    @cachedis.redis.should_receive(:get).exactly(1).times.and_return(cache.to_yaml)
+    @cachedis.redis.should_receive(:get).exactly(1).times.and_return(cache)
   end
 end

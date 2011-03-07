@@ -27,7 +27,7 @@ describe Cachedis do
                 "query"
               end
 
-      result.should == "query".to_yaml
+      result.should == "query"
     end
   end
 

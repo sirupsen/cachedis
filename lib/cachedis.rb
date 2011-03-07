@@ -11,9 +11,9 @@ class Cachedis
   def cachedis(key, options = {}, &block)
     result = yield
     
-    return redis.get key if redis.exists key
+    return Marshal.load(redis.get) key if redis.exists key
 
-    result = result.to_yaml
+    result = Marshal.dump(result)
     redis.set key, result
     pass_options_to_redis(options)
 
