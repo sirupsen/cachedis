@@ -2,30 +2,29 @@
 
 Cachedis caches your expensive queries to a Redis instance so the next time you fire it off, it'll load directly from cache instead of being run again. Optionally you can provide a cache expirement time.
 
-    @cachedis = Cachedis.new
-
-    # performs query the first time, performs cached calls to Redis within the next 60 * 60 seconds
-    @cachedis.cachedis 'name-of-expensive-query', :expire => 60 * 60  do
+    cachedis 'name-of-expensive-query', :expire => 60 * 60  do
       Post.all.expensive_operation
     end
 
 ## Documentation
 
-Anything passed to `Cachedis#new` is passed to `redis-rb`.
+Default options should be set in the constant `CACHEDIS_OPTIONS`.
 
-The main method of `Cachedis` is `#cachedis`, it takes the following parameters:
+`cachedis` takes two arguments in addition to a block which should return whatever you want `cachedis` to cache:
 
     key, options = {}
 
-The key is the name of the key the objects are saved as in Redis. Options are send directly to the Redis instance in addition to setting the key to the result of the query. For instance the option could be expiring the key at a certain time:
+The key is the name of the key under which the objects are saved as in Redis. Options are send directly to the Redis instance in along. For instance the option could be expiring the key at a certain time:
+
+    include CachedisInterface
 
     # expire in an hour
-    @cachedis.cachedis 'users:all:with_avatars', :expire => 60 * 60 * 60 do
+    cachedis 'users:all:with_avatars', :expire => 60 * 60 * 60 do
       User.all.with_avatars
     end
 
     # expire at unix timestamp with Redis' EXPIREAT command
-    @cachedis.cachedis 'expensive:query', :expireat => Time.new(2012,2,2).to_i do
+    cachedis 'expensive:query', :expireat => Time.new(2012,2,2).to_i do
       # insert expensive query here
     end
 
