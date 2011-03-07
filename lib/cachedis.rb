@@ -1,9 +1,9 @@
 require 'redis'
 
 module Cachedis
-  Serializer = "Marshal"
-  Options = {}
-  QueryOptions = {}
+  def self.serializer
+    "Marshal"
+  end
 
   class Cacher
     def initialize(options = {})
@@ -13,7 +13,7 @@ module Cachedis
     def cachedis(key, options = {}, &block)
       result = yield
       
-      serializer = Cachedis.const_get(Serializer)
+      serializer = Cachedis.serializer
       return serializer.load(redis.get(key)) if redis.exists key
 
       result = serializer.dump(result)
@@ -38,9 +38,8 @@ module Cachedis
 
   module Interface
     def self.cachedis(name, options = {}, &block)
-      cachedis = Cacher.new(Cachedis::Options)
-      
-      cachedis.cachedis(name, Cachedis::QueryOptions.merge(options), &block)
+      cachedis = Cacher.new
+      cachedis.cachedis(name, options, &block)
     end
   end
 end
