@@ -37,7 +37,7 @@ module CachedisInterface
   def self.cachedis(name, options = {}, &block)
     cachedis = Cachedis.new((CACHEDIS_DEFAULT_OPTIONS if defined?(CACHEDIS_DEFAULT_OPTIONS))|| {})
     
-    query_options = options.merge((CACHEDIS_DEFAULT_QUERY_OPTIONS if defined?(CACHEDIS_OPTIONS)) || {})
+    query_options = ((CACHEDIS_DEFAULT_QUERY_OPTIONS if defined?(CACHEDIS_OPTIONS)) || {}).merge(options)
     cachedis.cachedis(name, query_options, &block)
   end
 end
