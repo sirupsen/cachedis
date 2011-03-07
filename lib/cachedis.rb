@@ -6,8 +6,6 @@ module Cachedis
   QueryOptions = {}
 
   class Cacher
-    attr_reader :redis_instance
-
     def initialize(options = {})
       redis(options)
     end

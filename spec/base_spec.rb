@@ -21,7 +21,7 @@ describe Cachedis::Cacher do
   describe 'when setting and later retrieving something' do
     it 'retrieves from redis cache' do
       with_cache(Marshal.dump('query'))
-      @cachedis.redis_instance.should_not_receive(:set)
+      @cachedis.redis.should_not_receive(:set)
 
       @cachedis.cachedis 'expensive-query' do
         "query"
@@ -34,7 +34,7 @@ describe Cachedis::Cacher do
       it 'sets them in redis' do
         with_no_cache
 
-        @cachedis.redis_instance.should_receive(:expire).exactly(1).times
+        @cachedis.redis.should_receive(:expire).exactly(1).times
 
         @cachedis.cachedis 'name', :expire => 60 * 60 do
         end
@@ -44,7 +44,7 @@ describe Cachedis::Cacher do
     context 'with an array of arguments' do
       it 'sets them in redis' do
         with_no_cache
-        @cachedis.redis_instance.should_receive(:rename).exactly(1).times
+        @cachedis.redis.should_receive(:rename).exactly(1).times
 
         @cachedis.cachedis 'name', :rename => ['key', 'otherkey'] do
         end
