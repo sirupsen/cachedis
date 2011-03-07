@@ -31,4 +31,27 @@ describe Cachedis do
       result.should == "query".to_yaml
     end
   end
+
+  describe 'when setting additonal redis parameters' do
+    context 'with one argument' do
+      it 'sets them in redis' do
+        with_no_cache
+
+        @cachedis.redis_instance.should_receive(:expire).exactly(1).times
+
+        @cachedis.cachedis 'name', :expire => 60 * 60 do
+        end
+      end
+    end
+
+    context 'with an array of arguments' do
+      it 'sets them in redis' do
+        with_no_cache
+        @cachedis.redis_instance.should_receive(:rename).exactly(1).times
+
+        @cachedis.cachedis 'name', :rename => ['key', 'otherkey'] do
+        end
+      end
+    end
+  end
 end
