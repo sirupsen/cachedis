@@ -8,7 +8,16 @@ Cachedis caches your expensive queries to a Redis instance so the next time you 
 
 ## Documentation
 
-Default options should be set in the constant `CACHEDIS_OPTIONS`.
+You can specify two types of options via constants:
+
+* `CACHEDIS_DEFAULT_OPTIONS`
+    - Passed directly to [redis-rb][rr]
+    - Options like host options, port options, etc.
+* `CACHEDIS_DEFAULT_QUERY_OPTIONS`
+    - Default options for the `cachedis` queries
+    - For instance if you always want queries to expire in an hour:
+        - `CACHEDIS_DEFAULT_QUERY_OPTIONS = { :expire => 60 * 60 * 60}`
+    - Overridden by options passed to `cachedis` directly
 
 `cachedis` takes two arguments in addition to a block which should return whatever you want `cachedis` to cache:
 
@@ -30,7 +39,7 @@ The key is the name of the key under which the objects are saved as in Redis. Op
 
 ## Installation and dependencies
 
-Dependencies: `redis-rb`
+Dependencies: [redis-rb][rr]
 
 Install: `gem install cachedis`
 
@@ -45,3 +54,5 @@ Install: `gem install cachedis`
 * Sexify the API
     - Make it easier to specialize expirement time (e.g. `:expire => 4.hours`), or just let this be for ActiveSupport users only?
 * Rename `Cachedis#cachedis`?
+
+[rr]: https://github.com/ezmobius/redis-rb
