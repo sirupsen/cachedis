@@ -7,6 +7,23 @@ describe Cachedis::Cacher do
     @cachedis = Cachedis::Cacher.new
   end
 
+  describe 'the serializer' do
+    context 'left as default' do
+      it 'is Marshal' do
+        Cachedis.serializer.should == "Marshal"
+      end
+
+      it 'is used by #cachedis' do
+        with_no_cache('cached')
+        Cachedis.should_receive(:serializer).exactly(1).times.and_return('Marshal')
+
+        @cachedis.cachedis 'key' do
+          'cached'
+        end
+      end
+    end
+  end
+
   describe 'when setting something' do
     it 'sets without errors' do
       with_no_cache(['element', 'element 2'])
