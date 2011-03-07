@@ -62,7 +62,6 @@ You can switch serialization driver if you need to by overriding `Cachedis.seria
 * ActiveRecord integration
     - `Post.all.expensive_operation.cachedis`
 * Make expirement time optional
-* Best serializing?
 * Sexify the API
     - Make it easier to specialize expirement time (e.g. `:expire => 4.hours`), or just let this be for ActiveSupport users only?
 * Rename `Cachedis#cachedis`?
