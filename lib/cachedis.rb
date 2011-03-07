@@ -15,9 +15,10 @@ module Cachedis
     def cachedis(key, options = {}, &block)
       result = yield
       
-      return Kernel.const_get(Cachedis::Serializer).load(redis.get(key)) if redis.exists key
+      serializer = Cachedis.const_get(Serializer)
+      return serializer.load(redis.get(key)) if redis.exists key
 
-      result = Kernel.const_get(Cachedis::Serializer).dump(result)
+      result = serializer.dump(result)
       redis.set key, result
       pass_options_to_redis(options)
 
