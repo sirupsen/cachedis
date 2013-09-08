@@ -1,3 +1,3 @@
-module Cachedis
-  VERSION = "0.0.3"
+class Cachedis
+  VERSION = "0.1.0"
 end
